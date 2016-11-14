@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Conduite de projet</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Conduite de Projet</h1>
+                    <h2>Git</h2>
+					<p>
+                    <small><a href="http://vincent.jousse.org">Vincent Jousse</a> / <a href="http://twitter.com/vjousse">@vjousse</a></small><br />
+                    Très fortement inspiré de <a href="http://www.git-scm.com/book/fr">Pro Git</a>
+					</p>
+				</section>
+
+
+                <section>
+                    <h2>Système de gestion de version</h2>
+                    <h3><em>Version Control System (VCS)</em></h3>
+                    <h3>Késako ?</h3>
+                </section>
+                <section>
+                <p>« Un gestionnaire de version est un système qui enregistre l'évolution d'un fichier ou d'un ensemble de fichiers au cours du temps de manière à ce que l'on puisse rappeler une version antérieure d'un fichier à tout moment. »</p>
+                </section>
+                <section>
+                    <section>
+                        <h2>3 types de système</h2>
+                    </section>
+                    <section>
+                        <h2>Les systèmes locaux</h2>
+                        <img src="images/local_system.png" />
+                        <p>Exemples : RCS, copies locales, …</p>
+                    </section>
+                    <section>
+                        <h2>Les systèmes centralisés (CVCS)</h2>
+                        <img src="images/centralized_system.png" />
+                        <p>Exemples : CVS, SVN, Perforce, …</p>
+                    </section>
+                    <section>
+                        <h2>Les systèmes distribués (DVCS)</h2>
+                        <img src="images/distributed_system.png" />
+                    </section>
+                    <section>
+                        <p>Exemples : Git, Mercurial, Bazaar, Darcs, …</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Historique</h2>
+                        <ul>
+                            <li>Création en 2005</li>
+                            <li>Noyau Linux</li>
+                            <li>Développeur : Linus Torvald</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2>Objectifs</h2>
+                        <ul>
+                            <li>vitesse</li>
+                            <li>conception simple</li>
+                            <li>support pour les développements non linéaires (milliers de branches parallèles)</li>
+                            <li>complètement distribué</li>
+                            <li>capacité à gérer efficacement des projets d'envergure tels que le noyau Linux (vitesse et compacité des données)</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <h1>Les bases de Git</h1>
+                </section>
+                <section>
+                    <section>
+                        <p>Git gère des instantanés et non des différences.</p>
+                    </section>
+                    <section>
+                            <h2>Historiquement</h2>
+                            <img src="images/vcs_diff.png" />
+                    </section>
+                    <section>
+                            <h2>Git</h2>
+                            <img src="images/vcs_snap.png" />
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <p>La majorité des opération est locale</p>
+                    </section>
+                    <section>
+                        <ul>
+                            <li>Pas le latence réseau</li>
+                            <li>Accès immédiats et rapides</li>
+                            <li>Possibilité de travailler déconnecté</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                    <p>Git gère l'intégrité</p>
+                    </section>
+                    <section>
+                        <p>Git calcule des sommes de contrôle (SHA-1)</p>
+                        <pre><code data-trim>24b9da6552252987aa493b52f8696cd6d3b00373</pre></code>
+                        <p>Vous les verrez partout !</p>
+                    </section>
+                </section>
+                <section>
+                    <p>Généralement, Git ne fait qu'ajouter</p>
+                </section>
+                <section>
+                    <h1>Les 3 états</h1>
+                </section>
+
+                <section>
+                    <section>
+                        <p>Git gère trois états pour vos fichiers :</p>
+                        <ul>
+                            <li>validé</li>
+                            <li>modifié</li>
+                            <li>indexé</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Validé</h2>
+                        <p>les données sont stockées en sécurité dans votre base de données locale</p>
+                    </section>
+                    <section>
+                        <h2>Modifié</h2>
+                        <p>vous avez modifié le fichier mais qu'il n'a pas encore été validé en base</p>
+                    </section>
+                    <section>
+                        <h2>Indexé</h2>
+                        <p>vous avez marqué un fichier modifié dans sa version actuelle pour qu'il fasse partie du prochain instantané du projet</p>
+                    </section>
+                </section>
+                <section>
+                    <img src="images/local_operations.png" />
+                    <p>Répertoire de travail, zone d'index et répertoire git</p>
+                </section>
+
+                <section>
+                <p>Le répertoire Git est l'endroit où <strong>Git stocke les méta-données et la base de données des objets de votre projet</strong>. C'est <strong>la partie la plus importante de Git</strong>, et c'est ce qui est copié lorsque vous clonez un dépôt depuis un autre ordinateur.</p>
+                </section>
+
+                <section>
+                <p>Le répertoire de travail est <strong>une extraction unique d'une version du projet</strong>. Ces fichiers sont extraits depuis la base de données compressée dans le répertoire Git et placés sur le disque pour pouvoir être utilisés ou modifiés.</p>
+                </section>
+
+                <section>
+                <p>La zone d'index est un simple fichier, généralement situé dans le répertoire Git, qui stocke les informations concernant <strong>ce qui fera partie du prochain instantané</strong>.</p>
+                </section>
+                <section>
+                    <h2>Utilisation classique</h2>
+                    <ol>
+                        <li>vous modifiez des fichiers dans votre répertoire de travail</li>
+                        <li>vous indexez les fichiers modifiés, ce qui ajoute des instantanés de ces fichiers dans la zone d'index</li>
+                        <li>vous validez, ce qui a pour effet de basculer les instantanés des fichiers de l'index dans la base de données du répertoire Git</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h1>Un peu de concrêt</h1>
+                </section>
+                <section>
+                    <h2>Initialiser un dépôt Git</h2>
+                    <p>Pour placer un répertoire existant sous Git</p>
+                    <pre><code data-trim class="bash">
+                        $ cd monrepertoire/
+$ git init
+                        </pre></code>
+                    <p>Création d'un sous répertoire « caché » nommé .git
+                </section>
+                <section>
+                    <h2>Commencer à suivre ses fichiers</h2>
+                    <pre><code data-trim class="bash">
+$ git add *.c
+$ git add README
+$ git commit –m 'version initiale du projet'
+                    </pre></code>
+                </section>
+                <section>
+                    <h2>Cloner un dépôt existant</h2>
+                    <pre><code data-trim class="bash">
+$ git clone git@github.com:vjousse/conduite-projet.git
+                        </pre></code>
+                    <p>=> création d'un répertoire <strong>conduite-projet</strong></p>
+                    <pre><code data-trim class="bash">
+$ git clone git@github.com:vjousse/conduite-projet.git autrenom
+                        </pre></code>
+                    <p>=> création d'un répertoire <strong>autrenom</strong></p>
+
+                </section>
+                <section>
+                <h1>Les commandes de base</h1>
+                </section>
+                <section>
+                    <h2>Enregistrer les modifications</h2>
+                    <img src="images/lifecycle.png" />
+                </section>
+                <section>
+                    <h2>Vérifier l'état des fichiers</h2>
+                    <pre><code data-trim class="bash">
+$ git status
+On branch master
+nothing to commit, working directory clean
+                        </pre></code>
+                </section>
+                <section>
+                    <h2>Ajout d'un fichier</h2>
+                    <pre><code data-trim class="bash">
+$ vim LISEZMOI
+$ git status
+On branch master
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+        LISEZMOI
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+                        </pre></code>
+                </section>
+                <section>
+                    <h2>Placer un nouveau fichier sous suivi de version</h2>
+                    <p>On ajoute le fichier</p>
+                    <pre><code data-trim class="bash">
+$ git add LISEZMOI
+                    </pre></code>
+                    <p>On vérifie le statut</p>
+                    <pre><code data-trim class="bash">
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+        new file:   LISEZMOI
+                    </pre></code>
+                </section>
+                <section>
+                    <section>
+                        <h2>Indexer des fichiers modifiés</h2>
+                        <pre><code data-trim class="bash">
+$ git status
+On branch master
+Changes to be committed:
+(use "git reset HEAD &lt;file&gt;..." to unstage)
+
+        new file:   LISEZMOI
+
+Changes not staged for commit:
+(use "git add &lt;file&gt;..." to update what will be committed)
+(use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+        modified:   benchmarks.rb
+                        </pre></code>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+$ git add benchmarks.rb
+$ git status
+On branch master
+Changes to be committed:
+(use "git reset HEAD &lt;file&gt;..." to unstage)
+
+        new file:   LISEZMOI
+        modified:   benchmarks.rb
+                        </pre></code>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+$ vim benchmarks.rb
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+        new file:   LISEZMOI
+        modified:   benchmarks.rb
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+        modified:   benchmarks.rb
+                        </pre></code>
+                    </section>
+
+                    <section>
+                        <pre><code data-trim class="bash">
+$ git add benchmarks.rb
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+        new file:   LISEZMOI
+        modified:   benchmarks.rb
+                      </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <h2>Ignorer des fichiers</h2>
+                    <p>Créer un fichier .gitignore</p>
+                        <pre><code data-trim class="bash">
+$ cat .gitignore
+*.[oa]
+*~
+# ignorer uniquement le fichier TODO à la racine du projet
+/TODO
+# ignorer tous les fichiers dans le répertoire build
+build/
+# ignorer doc/notes.txt, mais pas doc/server/arch.txt
+doc/*.txt
+# ignorer tous les fichiers .txt sous le répertoire doc/
+doc/**/*.txt
+                        </pre></code>
+                </section>
+                <section>
+                    <section>
+                        <h2>Valider vos modifications TEST</h2>
+                        <pre><code data-trim class="bash">
+                        git commit
+                        </pre></code>
+                        <pre><code data-trim class="bash">
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD &lt;file&gt;..." to unstage)
+#
+#       new file:   LISEZMOI
+#       modified:   benchmarks.rb
+~
+~
+~
+".git/COMMIT_EDITMSG" 10L, 283C
+                        </pre></code>
+                    </section>
+                    <section>
+                    <pre><code data-trim class="bash">
+$ git commit -m "Story 182: Fix benchmarks for speed"
+[master]: created 463dc4f: "Fix benchmarks for speed"
+ 2 files changed, 3 insertions(+), 0 deletions(-)
+ create mode 100644 LISEZMOI
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                    <h2>Supprimer des fichiers</h2>
+                    <pre><code data-trim class="bash">
+$ rm grit.gemspec
+$ git status
+# On branch master
+#
+# Changes not staged for commit:
+#   (use "git add/rm &lt;file&gt;..." to update what will be committed)
+#
+#       deleted:    grit.gemspec
+#
+                        </pre></code>
+                    </section>
+                    <section>
+                    <pre><code data-trim class="bash">
+$ git rm grit.gemspec
+rm 'grit.gemspec'
+$ git status
+# On branch master
+#
+# Changes to be committed:
+#   (use "git reset HEAD &lt;file&gt;..." to unstage)
+#
+#       deleted:    grit.gemspec
+#
+                        </pre></code>
+                    </section>
+                    <section>
+                        <h2>Arrêter de suivre un fichier</h2>
+                    <pre><code data-trim class="bash">
+$ git rm --cached readme.txt
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Visualiser les différences</h2>
+                        <p>Visualiser les modifications non indexées</p>
+                        <pre><code data-trim class="bash">
+$ git diff
+                        </pre></code>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+$ git diff
+diff --git a/benchmarks.rb b/benchmarks.rb
+index e445e28..86b2f7c 100644
+--- a/benchmarks.rb
++++ b/benchmarks.rb
+@@ -127,3 +127,4 @@ end
+ main()
+
+ ##pp Grit::GitRuby.cache_client.stats
++# test line
+                        </pre></code>
+                    </section>
+                    <section>
+                        <p>Visualiser les différences entre les fichiers indexés et le dernier instantané</p>
+                        <pre><code data-trim class="bash">
+$ git diff --cached
+                        </pre></code>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+$ git diff --cached
+diff --git a/benchmarks.rb b/benchmarks.rb
+index 3cb747f..e445e28 100644
+--- a/benchmarks.rb
++++ b/benchmarks.rb
+@@ -36,6 +36,10 @@ def main
+          @commit.parents[0].parents[0].parents[0]
+        end
+
++        run_code(x, 'commits 1') do
++          git.commits.size
++        end
++
+        run_code(x, 'commits 2') do
+          log = git.commits('master', 15)
+          log.size
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Visualiser l'historique</h2>
+                        <p>Dépôt d'exemple :</p>
+                        <pre><code data-trim class="bash">
+$ git clone git://github.com/schacon/simplegit-progit.git
+                        </pre></code>
+                    </section>
+                    <section>
+                    <pre><code data-trim class="bash">
+$ git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+                    </pre></code>
+                    </section>
+                    <section>
+                    <pre><code data-trim class="bash">
+$ git log -p -2
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+diff --git a/Rakefile b/Rakefile
+index a874b73..8f94139 100644
+--- a/Rakefile
++++ b/Rakefile
+@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
+ spec = Gem::Specification.new do |s|
+     s.name      =   "simplegit"
+-    s.version   =   "0.1.0"
++    s.version   =   "0.1.1"
+     s.author    =   "Scott Chacon"
+     s.email     =   "schacon@gee-mail.com
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary test code
+
+diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+index a0a60ae..47c6340 100644
+--- a/lib/simplegit.rb
++++ b/lib/simplegit.rb
+@@ -18,8 +18,3 @@ class SimpleGit
+     end
+
+ end
+-
+-if $0 == __FILE__
+-  git = SimpleGit.new
+-  puts git.show
+-end
+\ No newline at end of file
+                    </pre></code>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+    $ git log --since=2.weeks
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Interfaces graphiques</h2>
+
+                        <pre><code data-trim class="bash">
+$ gitk
+                        </pre></code>
+                        <img src="images/gitk.png" />
+                    </section>
+                    <section>
+                        <p><a href="http://www.git-scm.com/downloads/guis">http://www.git-scm.com/downloads/guis</a>
+                        <img src="images/sourcetree.png" />
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Travailler avec des dépôts distants</h2>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+$ git clone git://github.com/schacon/ticgit.git
+Initialized empty Git repository in /private/tmp/ticgit/.git/
+remote: Counting objects: 595, done.
+remote: Compressing objects: 100% (269/269), done.
+remote: Total 595 (delta 255), reused 589 (delta 253)
+Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
+$ cd ticgit
+$ git remote
+origin
+                        </pre></code>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+$ git remote -v
+origin  git://github.com/schacon/ticgit.git (fetch)
+origin  git://github.com/schacon/ticgit.git (push)
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Ajouter des dépôts</h2>
+                    </section>
+                    <section>
+                        <pre><code data-trim class="bash">
+$ git remote
+origin
+$ git remote add pb git://github.com/paulboone/ticgit.git
+$ git remote -v
+origin  git://github.com/schacon/ticgit.git
+pb  git://github.com/paulboone/ticgit.git
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Récupérer depuis des dépôts distants</h2>
+                    </section>
+                    <section>
+                        <p>Récupération de code distant dans une nouvelle branche</p>
+                        <pre><code data-trim class="bash">
+$ git fetch pb
+remote: Counting objects: 58, done.
+remote: Compressing objects: 100% (41/41), done.
+remote: Total 44 (delta 24), reused 1 (delta 0)
+Unpacking objects: 100% (44/44), done.
+From git://github.com/paulboone/ticgit
+ * [new branch]      master     -> pb/master
+ * [new branch]      ticgit     -> pb/ticgit
+                        </pre></code>
+                    </section>
+                    <section>
+                        <p>Récupération de code distant et fusion dans la branche courante</p>
+                        <p>À partir du remote <strong>pb</strong></p>
+                        <pre><code data-trim class="bash">
+$ git pull pb
+                        </pre></code>
+                        <p>À partir du remote par défaut (<strong>origin</strong>)</p>
+                        <pre><code data-trim class="bash">
+$ git pull
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Pousser son travail sur un dépôt distant</h2>
+                        <p>git push <em>[nom-distant]</em> <em>[nom-de-branche]</em></p>
+                        <pre><code data-trim class="bash">
+$ git push origin master
+                        </pre></code>
+                    </section>
+                </section>
+                <section>
+                    <h1>Les branches avec Git</h1>
+                </section>
+                <section>
+                    <section>
+                        <p>« Créer une branche signifie <strong>diverger</strong> de la ligne principale de développement et <strong>continuer à travailler sans se préoccuper</strong> de cette ligne principale. »</p>
+                    </section>
+                    <section>
+                        <p>C'est <strong>LA</strong> fonctionnalité de Git</p>
+                    </section>
+                </section>
+                <section>
+                    <p>La branche par défaut de Git s'appelle <strong>master</strong></p>
+                    <img src="images/branch_master.png" />
+                </section>
+                <section>
+                    <section>
+                        <h2>Création d'une nouvelle branche</h2>
+                            <pre><code data-trim class="bash">
+$ git branch testing
+                            </pre></code>
+                            <img src="images/branch_master_testing.png" />
+                    </section>
+                    <section>
+                        <p>Le pointeur spécial <strong>HEAD</strong> vers la branche courante</p>
+                        <img src="images/branch_head.png" />
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Changer de branche</h2>
+                            <pre><code data-trim class="bash">
+$ git checkout testing
+                            </pre></code>
+                            <img src="images/branch_head_testing.png" />
+                    </section>
+                    <section>
+                        <p>Qu'est-ce qu'il se passe si nous modifions un fichier ?</p>
+                        <pre><code data-trim class="bash">
+$ vim test.rb
+$ git commit -a -m 'petite modification'
+                        </pre></code>
+                            <img src="images/branch_head_testing_2.png" />
+                    </section>
+                    <section>
+                        <p>Retournons sur <strong>master</strong></p>
+                        <pre><code data-trim class="bash">
+$ git checkout master
+                        </pre></code>
+                        <img src="images/branch_head_testing_3.png" />
+                    </section>
+                    <section>
+                        <p>Et si nous modifions de nouveau ?</p>
+                        <pre><code data-trim class="bash">
+$ vim test.rb
+$ git commit -a -m 'autres modifications'
+                        </pre></code>
+                            <img src="images/branch_head_testing_4_diverged.png" />
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Brancher et fusionner</h2>
+                    </section>
+                    <section>
+                        <h3>Dépôt git de base</h3>
+                        <img src="images/branch_merge_1.png" />
+                        <p>Créons une nouvelle branche <strong>iss53</strong></p>
+                    </section>
+                    <section>
+                        <p>Création de la branche <strong>iss53</strong></p>
+                        <pre><code data-trim class="bash">
+$ git checkout -b iss53
+Switched to a new branch "iss53"
+                        </pre></code>
+                        <p>Raccourci pour</p>
+                        <pre><code data-trim class="bash">
+$ git branch iss53
+$ git checkout iss53
+                        </pre></code>
+                        <img src="images/branch_merge_2.png" />
+                    </section>
+                    <section>
+                        <p>Faisons quelques modifications dans <strong>iss53</strong></p>
+                        <pre><code data-trim class="bash">
+$ vim index.html
+$ git commit -a -m 'ajout d'un pied de page [issue 53]'
+                        </pre></code>
+                        <img src="images/branch_merge_3.png" />
+                    </section>
+                    <section>
+                        <p>Un client appelle, il faut faire un correctif urgent …</p>
+                        <p>mais vous n'êtes pas prêts à publier <strong>iss53</strong> !</p>
+                    </section>
+                    <section>
+                        <p>Pas de problème, revenons sur <strong>master</strong></p>
+                        <pre><code data-trim class="bash">
+$ git checkout master
+Switched to branch "master"
+                        </pre></code>
+                        <p>et créons une nouvelle branche pour ce correctif (hotfix)</p>
+                        <pre><code data-trim class="bash">
+$ git checkout -b 'hotfix'
+Switched to a new branch "hotfix"
+$ vim index.html
+$ git commit -a -m "correction d'une adresse mail incorrecte"
+[hotfix]: created 3a0874c: "correction d'une adresse mail incorrecte"
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+                        </pre></code>
+                    </section>
+                    <section>
+                        <p>Ce qui nous donne</p>
+                        <img src="images/branch_merge_4.png" />
+                    </section>
+                    <section>
+                        <p>Le correctif est ok, fusionnons le dans <strong>master</strong></p>
+                        <pre><code data-trim class="bash">
+$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast forward
+ LISEZMOI |    1 -
+  1 files changed, 0 insertions(+), 1 deletions(-)
+                        </pre></code>
+                        <img src="images/branch_merge_5.png" />
+                    </section>
+                    <section>
+                        <p>Et faisons un peu de ménage en supprimant la branche <strong>hotfix</strong></p>
+                        <pre><code data-trim class="bash">
+$ git branch -d hotfix
+Deleted branch hotfix (3a0874c).
+                        </pre></code>
+                    </section>
+                    <section>
+                        <p>Retournons à nos moutons sur <strong>iss53</strong></p>
+                        <pre><code data-trim class="bash">
+$ git checkout iss53
+Switched to branch "iss53"
+$ vim index.html
+$ git commit -a -m 'Nouveau pied de page terminé [issue 53]'
+[iss53]: created ad82d7a: "Nouveau pied de page terminé [issue 53]"
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+                        </pre></code>
+                        <img src="images/branch_merge_6.png" />
+                    </section>
+                    <section>
+                        <h2>Les bases de la fusion</h2>
+                        <p>Fusionnons <strong>iss53</strong> dans <strong>master</strong></p>
+                        <pre><code data-trim class="bash">
+$ git checkout master
+$ git merge iss53
+Merge made by recursive.
+ README |    1 +
+  1 files changed, 1 insertions(+), 0 deletions(-)
+                        </pre></code>
+                    </section>
+                    <section>
+                        <img src="images/branch_merge_7.png" />
+                    </section>
+                    <section>
+                        <p>Et voilà le résultat</p>
+                        <img src="images/branch_merge_8.png" />
+                        <p>Un peu de ménage</p>
+                        <pre><code data-trim class="bash">
+$ git branch -d iss53
+                        </pre></code>
+                    </section>
+                </section>
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                slideNumber: true,
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
